@@ -1,14 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
-import { invoke } from '@tauri-apps/api/core';
-import { useEditor } from '../../core/state/EditorContext';
-import { toPng, toJpeg } from 'html-to-image';
+import { CaptureMode } from '../../types';
+import { useCapture } from '../../hooks/useCapture';
+import { useClipboard } from '../../hooks/useClipboard';
+import { useSave } from '../../hooks/useSave';
 
 export function Toolbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedMode, setSelectedMode] = useState('Rectangle');
-  const [isCapturing, setIsCapturing] = useState(false);
+  const [selectedMode, setSelectedMode] = useState<CaptureMode>('Rectangle');
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { setScreenshotData, setRegionSelectImage, canvasRef } = useEditor();
+
+  // Consume our extracted, maintainable hooks
+  const { isCapturing, handleNewCapture } = useCapture(selectedMode);
+  const { handleCopy } = useClipboard();
+  const { handleSave } = useSave();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -20,144 +24,6 @@ export function Toolbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  const handleNewCapture = async () => {
-    try {
-      setIsCapturing(true);
-      
-      const { getCurrentWindow } = await import('@tauri-apps/api/window');
-      const appWindow = getCurrentWindow();
-      
-      // Hide the app so it's not in the screenshot
-      await appWindow.hide();
-      
-      // Wait for the window to hide completely
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      const base64Data = await invoke<string>('capture_screen');
-      
-      if (selectedMode === 'Rectangle') {
-        // Show and go fullscreen for region selection
-        await appWindow.unminimize();
-        await appWindow.show();
-        await appWindow.setFocus();
-        await appWindow.setFullscreen(true);
-        setRegionSelectImage(base64Data);
-      } else {
-        // Just show
-        await appWindow.unminimize();
-        await appWindow.show();
-        await appWindow.setFocus();
-        setScreenshotData(base64Data);
-      }
-    } catch (error) {
-      console.error('Failed to capture screen:', error);
-      alert('Failed to capture screen: ' + String(error));
-      
-      // Attempt to show window again if it failed
-      try {
-        const { getCurrentWindow } = await import('@tauri-apps/api/window');
-        const appWindow = getCurrentWindow();
-        await appWindow.unminimize();
-        await appWindow.show();
-      } catch (e) {}
-    } finally {
-      setIsCapturing(false);
-    }
-  };
-
-  const handleNewCaptureRef = useRef(handleNewCapture);
-  
-  useEffect(() => {
-    handleNewCaptureRef.current = handleNewCapture;
-  }, [handleNewCapture]);
-
-  useEffect(() => {
-    let unlisten: (() => void) | undefined;
-    
-    const setupListener = async () => {
-      try {
-        const { listen } = await import('@tauri-apps/api/event');
-        unlisten = await listen('shortcut-triggered', () => {
-          handleNewCaptureRef.current();
-        });
-      } catch (e) {
-        console.error("Failed to setup shortcut listener", e);
-      }
-    };
-    
-    setupListener();
-
-    return () => {
-      if (unlisten) {
-        unlisten();
-      }
-    };
-  }, []);
-
-  const handleSave = async () => {
-    if (!canvasRef.current) return;
-    try {
-      const { save } = await import('@tauri-apps/plugin-dialog');
-      const filePath = await save({
-        filters: [{ name: 'Image', extensions: ['png', 'jpg', 'jpeg'] }],
-        defaultPath: 'ScreenX-Capture.png'
-      });
-      
-      if (!filePath) return;
-      
-      const isJpeg = filePath.toLowerCase().endsWith('.jpg') || filePath.toLowerCase().endsWith('.jpeg');
-      
-      const dataUrl = isJpeg 
-        ? await toJpeg(canvasRef.current, { cacheBust: true, pixelRatio: 2, quality: 0.95 })
-        : await toPng(canvasRef.current, { cacheBust: true, pixelRatio: 2 });
-      
-      const { writeFile } = await import('@tauri-apps/plugin-fs');
-      
-      const base64Data = dataUrl.split(',')[1];
-      const binaryString = window.atob(base64Data);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      
-      await writeFile(filePath, bytes);
-      
-    } catch (e) {
-      console.error(e);
-      alert('Failed to save: ' + String(e));
-    }
-  };
-
-  const handleCopy = async () => {
-    if (!canvasRef.current) return;
-    try {
-      const { writeImage } = await import('@tauri-apps/plugin-clipboard-manager');
-      
-      const dataUrl = await toPng(canvasRef.current, { cacheBust: true, pixelRatio: 2 });
-      const base64Data = dataUrl.split(',')[1];
-      const binaryString = window.atob(base64Data);
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      
-      await writeImage(bytes);
-      
-      // Provide visual feedback without breaking the flow
-      const copyBtn = document.getElementById('copy-btn');
-      if (copyBtn) {
-        const originalHtml = copyBtn.innerHTML;
-        copyBtn.innerHTML = '<span class="text-green-400 text-xs font-medium px-1">Copied!</span>';
-        setTimeout(() => {
-          copyBtn.innerHTML = originalHtml;
-        }, 2000);
-      }
-    } catch (e) {
-      console.error(e);
-      alert('Failed to copy: ' + String(e));
-    }
-  };
 
   return (
     <div className="h-[52px] bg-[#1E1E1E] flex justify-between items-center px-4 border-b border-[#2C2C2C]">

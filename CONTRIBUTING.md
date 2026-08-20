@@ -14,10 +14,7 @@ To build ScreenX locally, you need:
 
 ### Running Locally
 1. **Fork and Clone** the repository to your local machine.
-2. Open a terminal in the root directory and navigate to the `desktop` folder:
-   ```bash
-   cd desktop
-   ```
+2. Open a terminal in the root directory.
 3. Install the frontend dependencies:
    ```bash
    npm install
@@ -34,7 +31,7 @@ Not sure where to find the code? Check out our [Architecture Guide](ARCHITECTURE
 
 ### Code Style
 - **Frontend**: We use Prettier for code formatting. Please ensure your React/TypeScript code is clean and follows modern hooks patterns.
-- **Backend**: We use standard Rust conventions. Please run `cargo fmt` inside the `desktop/src-tauri` directory before committing.
+- **Backend**: We use standard Rust conventions. Please run `cargo fmt` inside the `src-tauri` directory before committing.
 
 ### Submitting a Pull Request
 1. Create a new branch from `main` (e.g., `feature/awesome-new-tool` or `fix/crash-on-launch`).

@@ -29,21 +29,19 @@ jobs:
           targets: x86_64-pc-windows-msvc
 
       - name: Install dependencies (npm)
-        working-directory: desktop
         run: npm install
 
       - name: Build Tauri App
-        working-directory: desktop
         run: npm run tauri build
         
       - name: Rename Installer
-        working-directory: desktop/src-tauri/target/release/bundle/nsis
+        working-directory: src-tauri/target/release/bundle/nsis
         run: |
           Get-ChildItem -Filter "*setup.exe" | Rename-Item -NewName "ScreenX_setup.exe"
           
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         with:
-          files: desktop/src-tauri/target/release/bundle/nsis/ScreenX_setup.exe
+          files: src-tauri/target/release/bundle/nsis/ScreenX_setup.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -59,7 +59,7 @@ export function Sidebar() {
           <div className="flex flex-col gap-2">
             <span className="text-[13px] text-gray-200">Shadow</span>
             <div className="flex bg-[#333] rounded p-1 gap-1">
-              {['none', 'sm', 'lg', '2xl'].map(size => (
+              {(['none', 'sm', 'lg', '2xl'] as const).map(size => (
                 <button
                   key={size}
                   onClick={() => setShadowIntensity(size)}
@@ -95,10 +95,12 @@ export function Sidebar() {
             </button>
             {logoUrl && (
               <div className="grid grid-cols-2 gap-1 bg-[#333] p-1 rounded mt-1">
-                {[
-                  { value: 'top-left', label: 'Top L' }, { value: 'top-right', label: 'Top R' },
-                  { value: 'bottom-left', label: 'Bot L' }, { value: 'bottom-right', label: 'Bot R' }
-                ].map(pos => (
+                {(
+                  [
+                    { value: 'top-left', label: 'Top L' }, { value: 'top-right', label: 'Top R' },
+                    { value: 'bottom-left', label: 'Bot L' }, { value: 'bottom-right', label: 'Bot R' }
+                  ] as const
+                ).map(pos => (
                   <button
                     key={pos.value}
                     onClick={() => setLogoPosition(pos.value)}
@@ -121,7 +123,7 @@ export function Sidebar() {
             />
             {customText && (
               <div className="flex bg-[#333] rounded p-1 gap-1">
-                {['glass', 'solid', 'hidden'].map(style => (
+                {(['glass', 'solid', 'hidden'] as const).map(style => (
                   <button
                     key={style}
                     onClick={() => setTextStyle(style)}

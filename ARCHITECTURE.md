@@ -4,7 +4,7 @@ Welcome to the internal mechanics of ScreenX!
 
 ScreenX is built using the **Tauri Framework**. Tauri apps are composed of two distinct halves that talk to each other securely: a **Rust Backend** (for OS-level operations) and a **Web Frontend** (for the UI).
 
-## 1. The Frontend (`desktop/src/`)
+## 1. The Frontend (`src/`)
 The UI is built with **React**, **TypeScript**, and **TailwindCSS**, bundled by **Vite**.
 
 - **`EditorContext.tsx`**: This is the heart of the frontend state. It holds the image data (in base64 format), the styling configuration (glassmorphism settings, padding, shadows), and handles saving/copying the final canvas.
@@ -13,7 +13,7 @@ The UI is built with **React**, **TypeScript**, and **TailwindCSS**, bundled by 
 - **`Sidebar.tsx`**: Contains all the customization sliders (padding, macOS frames, text overlays, etc.).
 - **`EditorArea.tsx`**: Renders the screenshot inside the customizable frame using DOM-to-Image logic (`html-to-image`) when saving/copying.
 
-## 2. The Backend (`desktop/src-tauri/`)
+## 2. The Backend (`src-tauri/`)
 The backend is written entirely in **Rust**. It handles things that web browsers usually cannot do.
 
 - **`lib.rs` / `main.rs`**: The entry point for the application.

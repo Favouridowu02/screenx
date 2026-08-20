@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="desktop/public/favicon.png" width="128" alt="ScreenX Logo">
+  <img src="public/favicon.png" width="128" alt="ScreenX Logo">
   <h1>ScreenX</h1>
   <p><strong>A blazing fast, unbloated, and beautiful screenshot utility for Windows.</strong></p>
 

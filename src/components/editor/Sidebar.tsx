@@ -139,7 +139,7 @@ export function Sidebar() {
       </div>
       
       <div className="absolute bottom-6 right-6">
-        <a href="https://github.com/favouridowu" target="_blank" rel="noopener noreferrer" className="text-[#3b82f6] hover:text-blue-400 text-[11px] underline font-medium">
+        <a href="https://github.com/Favouridowu02" target="_blank" rel="noopener noreferrer" className="text-[#3b82f6] hover:text-blue-400 text-[11px] underline font-medium">
           Built by Favour Idowu
         </a>
       </div>

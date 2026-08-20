@@ -13,7 +13,7 @@ export function Toolbar() {
   // Consume our extracted, maintainable hooks
   const { isCapturing, handleNewCapture } = useCapture(selectedMode);
   const { handleCopy } = useClipboard();
-  const { handleSave, isSaving } = useSave();
+  const { handleSave } = useSave();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -98,7 +98,7 @@ export function Toolbar() {
           </svg>
         </button>
         <button onClick={handleSave} className="p-1 hover:bg-[#2D2D2D] rounded-sm transition-colors opacity-90 hover:opacity-100" title="Save File">
-          <img src="/src/assets/save.png" alt="Save" className="w-[18px] h-[18px]" />
+          <img src={saveIconUrl} alt="Save" className="w-[18px] h-[18px]" />
         </button>
       </div>
     </div>

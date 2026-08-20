@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ScreenX - A blazing fast, unbloated, and beautiful screenshot utility for Windows.">
+    <title>ScreenX | The Ultimate Screenshot Utility</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+    <!-- Animated Background Gradients -->
+    <div class="bg-glow blob-1"></div>
+    <div class="bg-glow blob-2"></div>
+    
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar glass">
+            <div class="logo">
+                <img src="logo.png" alt="ScreenX Logo" class="logo-img">
+                <span class="logo-text">ScreenX</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="https://github.com/Favouridowu02/screenx" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <main class="hero">
+            <div class="hero-content">
+                <div class="badge fade-in-up">
+                    <span class="badge-dot"></span>
+                    <span>v1.0.0 Now Available</span>
+                </div>
+                
+                <h1 class="hero-title fade-in-up delay-1">
+                    Capture your screen with <br/>
+                    <span class="gradient-text">unmatched elegance.</span>
+                </h1>
+                
+                <p class="hero-subtitle fade-in-up delay-2">
+                    A blazing fast, native Windows screenshot utility built with Tauri and React. 
+                    Unbloated, open-source, and perfectly designed.
+                </p>
+                
+                <div class="hero-cta fade-in-up delay-3">
+                    <a href="https://github.com/Favouridowu02/screenx/releases/latest/download/ScreenX_setup.exe" class="btn btn-primary">
+                        <svg class="windows-icon" viewBox="0 0 87.6 87.6" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 12.4L37 7.2v34H0zM0 45h37v34.4L0 74.3zM41.4 6.6L87.6 0v41.3H41.4zM41.4 45H87.6v41.3L41.4 80z" fill="currentColor"/>
+                        </svg>
+                        Download for Windows
+                    </a>
+                    <a href="https://github.com/Favouridowu02/screenx" target="_blank" rel="noopener noreferrer" class="btn btn-secondary glass">
+                        View Source Code
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero-image-wrapper fade-in-up delay-4">
+                <div class="glass-frame">
+                    <!-- Placeholder for the app UI, or we can just use CSS to mimic a beautiful window -->
+                    <div class="mockup-window">
+                        <div class="mockup-header">
+                            <div class="mockup-dot red"></div>
+                            <div class="mockup-dot yellow"></div>
+                            <div class="mockup-dot green"></div>
+                        </div>
+                        <div class="mockup-body">
+                            <div class="mockup-sidebar">
+                                <div class="mockup-line"></div>
+                                <div class="mockup-line short"></div>
+                                <div class="mockup-line"></div>
+                            </div>
+                            <div class="mockup-canvas">
+                                <div class="mockup-screenshot">
+                                    <div class="mockup-watermark">ScreenX</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <h2 class="section-title">Why ScreenX?</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card glass">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Blazing Fast</h3>
+                    <p>Powered by a native Rust backend via Tauri. It takes screenshots instantly with minimal RAM usage.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">✨</div>
+                    <h3>Beautiful Output</h3>
+                    <p>Automatically wraps your captures in gorgeous macOS-style frames with customizable dropshadows and glassmorphism.</p>
+                </div>
+                <div class="feature-card glass">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Open Source</h3>
+                    <p>100% free and open-source. Inspect the code, contribute features, and own your tools.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Designed and built for the community. Released under the MIT License.</p>
+            <div class="footer-links">
+                <a href="https://github.com/Favouridowu02/screenx">GitHub</a>
+                <a href="https://github.com/Favouridowu02/screenx/issues">Report an Issue</a>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

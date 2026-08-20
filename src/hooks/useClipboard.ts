@@ -1,4 +1,4 @@
-import { toPng } from 'html-to-image';
+import { toCanvas } from 'html-to-image';
 import { useEditor } from '../core/state/EditorContext';
 
 /**
@@ -13,18 +13,22 @@ export function useClipboard() {
     if (!canvasRef.current) return;
     try {
       const { writeImage } = await import('@tauri-apps/plugin-clipboard-manager');
+      const { Image } = await import('@tauri-apps/api/image');
       
-      const dataUrl = await toPng(canvasRef.current, { cacheBust: true, pixelRatio: 2 });
-      const base64Data = dataUrl.split(',')[1];
-      const binaryString = window.atob(base64Data);
+      // 1. Generate canvas directly
+      const canvas = await toCanvas(canvasRef.current, { cacheBust: true, pixelRatio: 2 });
       
-      // Convert base64 to byte array required by Tauri clipboard plugin
-      const bytes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
+      // 2. Extract RGBA pixel data
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error("Failed to get canvas context");
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       
-      await writeImage(bytes);
+      // 3. Convert Uint8ClampedArray to Uint8Array
+      const rgba = new Uint8Array(imageData.data.buffer);
+      
+      // 4. Construct a Tauri Image struct and write it
+      const image = await Image.new(rgba, canvas.width, canvas.height);
+      await writeImage(image);
       
       // Provide visual feedback without breaking the flow
       const copyBtn = document.getElementById('copy-btn');

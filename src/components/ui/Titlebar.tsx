@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
+import logoUrl from '../../assets/logo.png';
 
 export function Titlebar() {
   const appWindow = getCurrentWindow();
@@ -25,7 +26,7 @@ export function Titlebar() {
   return (
     <div className="h-10 bg-[#191919] flex items-center px-4 select-none">
       <div className="flex items-center gap-2 pointer-events-none">
-        <img src="/src/assets/logo.png" alt="ScreenX Logo" className="w-4 h-4 object-contain" />
+        <img src={logoUrl} alt="ScreenX Logo" className="w-4 h-4 object-contain" />
         <span className="text-[13px] text-gray-200 font-medium tracking-wide">ScreenX</span>
       </div>
       

@@ -3,6 +3,7 @@ import { CaptureMode } from '../../types';
 import { useCapture } from '../../hooks/useCapture';
 import { useClipboard } from '../../hooks/useClipboard';
 import { useSave } from '../../hooks/useSave';
+import saveIconUrl from '../../assets/save.png';
 
 export function Toolbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,7 +13,7 @@ export function Toolbar() {
   // Consume our extracted, maintainable hooks
   const { isCapturing, handleNewCapture } = useCapture(selectedMode);
   const { handleCopy } = useClipboard();
-  const { handleSave } = useSave();
+  const { handleSave, isSaving } = useSave();
 
   // Close dropdown when clicking outside
   useEffect(() => {

@@ -19,6 +19,7 @@
     "fs:allow-write-file",
     "dialog:default",
     "global-shortcut:default",
-    "clipboard-manager:default"
+    "clipboard-manager:default",
+    "clipboard-manager:allow-write-image"
   ]
 }
